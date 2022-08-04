@@ -3,6 +3,7 @@
         <div class="form-group col col-md-4 col-12">
             <label for="name">Name</label>
             {{ form_widget(form.name, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Europe...'} }) }}
+            <span class="text-danger">{{ form_errors(form.name) }}</span>
         </div>
     </div>
     <hr>
