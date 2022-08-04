@@ -1,35 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Region index{% endblock %}
+{% block title %}Regions list{% endblock %}
 
 {% block body %}
-    <h1>Region index</h1>
+    <h1>Regions list</h1>
 
-    <table class="table table-striped">
-        <thead class="bg-secondary">
-            <tr>
-                <th class="text-white">Id</th>
-                <th class="text-white">Name</th>
-                <th class="text-white">actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for region in regions %}
-            <tr>
-                <td>{{ region.id }}</td>
-                <td>{{ region.name }}</td>
-                <td>
-                    <a href="{{ path('app_region_show', {'id': region.id}) }}">show</a>
-                    <a href="{{ path('app_region_edit', {'id': region.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <button class="btn btn-secondary m-2" onclick="window.location = '{{ path('app_region_new') }}';">
+        Create new
+    </button>
 
-    <a href="{{ path('app_region_new') }}">Create new</a>
+    <div class="table-scrollable">
+        <table class="table table-striped">
+            <thead class="bg-secondary">
+                <tr>
+                    <th class="text-white">Id</th>
+                    <th class="text-white">Name</th>
+                    <th class="text-white">actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for region in regions %}
+                <tr>
+                    <td>{{ region.id }}</td>
+                    <td>{{ region.name }}</td>
+                    <td>
+                        <a href="{{ path('app_region_show', {'id': region.id}) }}">show</a>
+                        <a href="{{ path('app_region_edit', {'id': region.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

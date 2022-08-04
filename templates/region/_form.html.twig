@@ -1,4 +1,10 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="row justify-content-start">
+        <div class="form-group col col-md-4 col-12">
+            <label for="name">Name</label>
+            {{ form_widget(form.name, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Europe...'} }) }}
+        </div>
+    </div>
+    <hr>
+    <button class="btn btn-success m-2">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

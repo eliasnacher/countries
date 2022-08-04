@@ -1,4 +1,28 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="row justify-content-start">
+        <div class="form-group col col-md-4 col-12">
+            <label for="commonName">Common Name</label>
+            {{ form_widget(form.commonName, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Spain...'} }) }}
+        </div>
+        <div class="form-group col col-md-4 col-12">
+            <label for="officialName">Official Name</label>
+            {{ form_widget(form.officialName, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Kingdom of Spain...'} }) }}
+        </div>
+        <div class="form-group col col-md-4 col-12">
+            <label for="flag">Flag</label>
+            {{ form_widget(form.flag, { 'attr' : {'class' : 'form-control', 'placeholder' : 'Emogi...'} }) }}
+        </div>
+    </div>
+    <div class="row justify-content-start">
+        <div class="form-group col col-md-4 col-12">
+            <label for="population">Population</label>
+            {{ form_widget(form.population, { 'attr' : {'class' : 'form-control', 'placeholder' : '0123456...'} }) }}
+        </div>
+        <div class="form-group col col-md-4 col-12">
+            <label for="region">Region</label>
+            {{ form_widget(form.region, { 'attr' : {'class' : 'form-control'} }) }}
+        </div>
+    </div>
+    <hr>
+    <button class="btn btn-success align-bottom m-2">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

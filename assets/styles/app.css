@@ -2,3 +2,13 @@ body {
     background-color: white;
     font-family: Helvetica;
 }
+
+.table-scrollable {
+    height: 70vh;
+    overflow-y:scroll
+}
+
+.table-scrollable thead {
+    position:sticky;
+    top:0px;
+}

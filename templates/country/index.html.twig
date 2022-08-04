@@ -1,44 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Country index{% endblock %}
+{% block title %}Countries list{% endblock %}
 
 {% block body %}
-    <h1>Country index</h1>
+    <h1>Countries list</h1>
 
-    <table class="table table-striped">
-        <thead class="bg-secondary">
-            <tr>
-                <th class="text-white">Id</th>
-                <th class="text-white">CommonName</th>
-                <th class="text-white">OfficialName</th>
-                <th class="text-white">Flag</th>
-                <th class="text-white">Population</th>
-                <th class="text-white">Region</th>
-                <th class="text-white">actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for country in countries %}
-            <tr>
-                <td>{{ country.id }}</td>
-                <td>{{ country.commonName }}</td>
-                <td>{{ country.officialName }}</td>
-                <td>{{ country.flag }}</td>
-                <td>{{ country.population }}</td>
-                <td>{{ country.region.name }}</td>
-                <td>
-                    <a href="{{ path('app_country_show', {'id': country.id}) }}">show</a>
-                    <a href="{{ path('app_country_edit', {'id': country.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <button class="btn btn-secondary m-2" onclick="window.location = '{{ path('app_country_new') }}';">
+        Create new
+    </button>
+    <button class="btn btn-secondary m-2" onclick="window.location = '{{ path('app_country_import') }}';$(this).attr('disabled', true)">
+        Import countries
+    </button>
 
-    <a href="{{ path('app_country_new') }}">Create new</a>
-    <a href="{{ path('app_country_import') }}">Import countries</a>
+    <div class="table-scrollable">
+        <table class="table table-striped">
+            <thead class="bg-secondary">
+                <tr>
+                    <th class="text-white">Id</th>
+                    <th class="text-white">CommonName</th>
+                    <th class="text-white">OfficialName</th>
+                    <th class="text-white">Flag</th>
+                    <th class="text-white">Population</th>
+                    <th class="text-white">Region</th>
+                    <th class="text-white">actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for country in countries %}
+                <tr>
+                    <td>{{ country.id }}</td>
+                    <td>{{ country.commonName }}</td>
+                    <td>{{ country.officialName }}</td>
+                    <td>{{ country.flag }}</td>
+                    <td>{{ country.population }}</td>
+                    <td>{{ country.region.name }}</td>
+                    <td>
+                        <a href="{{ path('app_country_show', {'id': country.id}) }}">show</a>
+                        <a href="{{ path('app_country_edit', {'id': country.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

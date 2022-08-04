@@ -11,6 +11,7 @@ import './styles/app.css';
 
 // Import JQuery
 const $ = require('jquery');
+global.$ = global.jQuery = $;
 
 // start the Stimulus application
 import './bootstrap';
