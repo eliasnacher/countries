@@ -16,7 +16,7 @@ class Country
     #[ORM\Column(length: 255)]
     private ?string $commonName = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $officialName = null;
 
     #[ORM\ManyToOne(inversedBy: 'countries')]
