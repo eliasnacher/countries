@@ -1,4 +1,4 @@
-version: '3'
+version: '3.2'
 
 services:
   database:
@@ -12,6 +12,15 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-SFSAfd3212SFa32rtg3fwerh}
     volumes:
       - db-data:/var/lib/mysql:rw
+
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    environment:
+      - DATABASE_URL=mysql://db_user:db_password@database:3306/db_name?serverVersion=5.7&charset=utf8mb4
 
 volumes:
   db-data:
