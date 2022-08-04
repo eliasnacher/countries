@@ -2,13 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Region;
 use App\Entity\Country;
 use App\Form\CountryType;
+use App\Repository\RegionRepository;
 use App\Repository\CountryRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/country')]
 class CountryController extends AbstractController
@@ -19,6 +21,50 @@ class CountryController extends AbstractController
         return $this->render('country/index.html.twig', [
             'countries' => $countryRepository->findAll(),
         ]);
+    }
+
+    #[Route('/import', name: 'app_country_import', methods: ['GET'])]
+    public function import(CountryRepository $countryRepository, RegionRepository $regionRepository): Response
+    {
+        // Load local stored regions
+        $localRegions = [];
+        foreach($regionRepository->findAll() as $localRegion)
+        $localRegions[$localRegion->getName()] = $localRegion;
+
+        // Load local stored countries
+        $localCountries = [];
+        foreach($countryRepository->findAll() as $localCountry)
+        $localCountries[$localCountry->getOfficialName()] = $localCountry;
+
+        // Load remote countries
+        $countryApiUrl = 'https://restcountries.com/v3.1/all';
+        $remoteCountries = json_decode(file_get_contents($countryApiUrl));
+
+        foreach($remoteCountries as $remoteCountry)
+        {
+            $countryToPersist = $localCountries[$remoteCountry->name->official] ?? new Country ();
+
+            // If region is not stored, save it.
+            if(!isset($localRegions[$remoteCountry->region]))
+            {
+                $regionToPersist = new Region ();
+                $regionToPersist->setName($remoteCountry->region);
+                $regionRepository->add($regionToPersist, true);
+                $localRegions[$remoteCountry->region] = $regionToPersist;
+            }
+
+            // Fill country entity with remote data.
+            $countryToPersist->setCommonName($remoteCountry->name->common);
+            $countryToPersist->setOfficialName($remoteCountry->name->official);
+            $countryToPersist->setFlag($remoteCountry->flag);
+            $countryToPersist->setPopulation($remoteCountry->population);
+            $countryToPersist->setRegion($localRegions[$remoteCountry->region]);
+
+            $countryRepository->add($countryToPersist, true);
+        }
+
+
+        return $this->redirectToRoute('app_country_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/new', name: 'app_country_new', methods: ['GET', 'POST'])]
