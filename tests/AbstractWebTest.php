@@ -19,19 +19,23 @@ abstract class AbstractWebTest extends WebTestCase
     protected function setUp(): void
     {
         $this->client = static::createClient();
+
+        // Avoid deleting the database during execution.
         $this->client->disableReboot();
 
         $entityManager = static::getContainer()->get('doctrine.orm.entity_manager');
 
+        $this->regionRepository = $entityManager->getRepository(Region::class);
+        $this->countryRepository = $entityManager->getRepository(Country::class);
+
+        // Generate/Update schema in test database
         $metadatas = $entityManager->getMetadataFactory()->getAllMetadata();
         $schemaTool = new SchemaTool($entityManager);
         $schemaTool->updateSchema($metadatas);
 
-        $this->regionRepository = (static::getContainer()->get('doctrine'))->getRepository(Region::class);
-        $this->countryRepository = (static::getContainer()->get('doctrine'))->getRepository(Country::class);
-
-        foreach ($this->regionRepository->findAll() as $object)  $this->regionRepository->remove($object, true);
-        foreach ($this->countryRepository->findAll()   as $object)  $this->countryRepository->remove($object, true);
+        // Clear all data before each test
+        foreach ($this->regionRepository->findAll() as $object) $this->regionRepository->remove($object, true);
+        foreach ($this->countryRepository->findAll() as $object) $this->countryRepository->remove($object, true);
     }
 
     public function createDummyRegion (string $name) : Region
