@@ -1,13 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}COS home{% endblock %}
 
 {% block body %}
 <style>
 </style>
 
 <div>
-    <h2>Wellcome to CountriES</h2>
-    <h4>Total stored countries {{ countriesCount }}</h4>
+    <h1>Wellcome</h1>
+    <br>
+    <h5>Total stored countries {{ countriesCount }}</h5>
+    <br>
+    <h3>First steps...</h3>
+    <br>
+    <p class="col-12 col-md-6">
+        This website has 2 main sections,
+        <a href="{{ path('app_country_index') }}">Countries</a>
+        and
+        <a href="{{ path('app_region_index') }}">Regions</a> pages.
+        From the top navigation bar, we can access each one, and by clicking on the logo, we can return to Home.
+        <br>
+        <br>
+        In each section, you will find the CRUD of each entity (Country & Region).
+        <br>
+        <br>
+        On the countries page, we can use the "Import Countries" button to import the list of
+        countries from a public API. Automatically, all country regions are stored in
+        own table avoiding duplicates, and each country is referenced to its own Region.
+        <br>
+        <br>
+        Thanks for reading, you will find the source code at
+        <a href="https://github.com/eliasnacher/countries">https://github.com/eliasnacher/countries</a>
+    </p>
 </div>
 {% endblock %}
